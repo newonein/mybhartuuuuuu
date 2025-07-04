@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Player - For My Bestie!</title>
+    <!-- Tailwind CSS CDN for easy styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Keyframe Animations */
+        @keyframes fadeInSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Custom styles for better readability and aesthetics */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #FDF2F8, #FFEBF2, #FCE4EC); /* Pink gradient background */
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite; /* Subtle background animation */
+            color: #333; /* Darker text color for contrast */
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+        .container {
+            max-width: 900px; /* Slightly wider for players */
+            background-color: #FFFFFF; /* White container background */
+            animation: fadeInSlideUp 0.8s ease-out forwards; /* Container fades in */
+            animation-delay: 0.2s; /* Delay for container */
+            opacity: 0; /* Start hidden for animation */
+        }
+        .track-card {
+            background-color: #ffffff;
+            border-left: 4px solid #E91E63; /* Deep Pink left border for emphasis */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out; /* Smooth transition for hover effects */
+            animation: fadeInSlideUp 0.6s ease-out forwards; /* Cards fade in */
+            opacity: 0; /* Start hidden for animation */
+            /* Animation delay set by JS for staggered effect */
+        }
+        .track-card:hover {
+            transform: translateY(-5px) scale(1.01); /* Lift and slight grow effect */
+            box-shadow: 0 8px 16px rgba(233, 30, 99, 0.2); /* Pinker, larger shadow on hover */
+        }
+        h2 {
+            border-bottom: 2px solid #F8BBD0; /* Light pink underline for section titles */
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            animation: fadeInSlideUp 0.7s ease-out forwards; /* Section titles fade in */
+            opacity: 0; /* Start hidden for animation */
+            /* Animation delay set by JS for staggered effect */
+        }
+        .header-title {
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Initial subtle text shadow */
+            transition: text-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+            animation: pulse 2s infinite ease-in-out; /* Pulsing animation for title */
+        }
+        .header-title:hover {
+            text-shadow: 0 4px 8px rgba(216, 27, 96, 0.4); /* Pinker, larger text shadow on hover */
+            transform: scale(1.01); /* Slight grow for title */
+        }
+        .spotify-iframe {
+            border-radius: 12px;
+            width: 100%; /* Make iframe responsive */
+            height: 152px; /* Standard Spotify embed height */
+            transition: transform 0.3s ease-in-out;
+        }
+        .spotify-iframe:hover {
+            transform: scale(1.01); /* Slight zoom on hover */
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+    <div class="container mx-auto bg-white rounded-lg shadow-xl p-6 sm:p-8 md:p-10">
+        <!-- Header Section -->
+        <header class="text-center mb-10">
+            <h1 class="header-title text-4xl sm:text-5xl font-extrabold text-pink-700 mb-4 rounded-md p-2 bg-pink-100 shadow-md">
+                Spotify Playtime for My Bestie! 🎶
+            </h1>
+            <p class="text-lg text-gray-600">
+                Here are some awesome tracks just for you! Enjoy the music.
+            </p>
+        </header>
+
+        <!-- Main Content Area -->
+        <main>
+            <section class="mb-10">
+                <h2 class="text-2xl sm:text-3xl font-semibold text-gray-800 mb-4">Your Curated Playlist</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <!-- Track 1 -->
+                    <div class="track-card p-4 rounded-lg">
+                        <h3 class="text-xl font-bold mb-2 text-pink-600">Track 1: Blinding Lights</h3>
+                        <iframe class="spotify-iframe" src="https://open.spotify.com/embed/track/4umIPjkehX1r7uhmGvXiSV" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+
+                    <!-- Track 2 -->
+                    <div class="track-card p-4 rounded-lg">
+                        <h3 class="text-xl font-bold mb-2 text-pink-600">Track 2: Levitating</h3>
+                        <iframe class="spotify-iframe" src="https://open.spotify.com/embed/track/14mT8BCOXiUUcGlb7KujkT" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+
+                    <!-- Track 3 -->
+                    <div class="track-card p-4 rounded-lg">
+                        <h3 class="text-xl font-bold mb-2 text-pink-600">Track 3: Watermelon Sugar</h3>
+                        <iframe class="spotify-iframe" src="https://open.spotify.com/embed/track/0SccFtYdj75y6lL2OW10Cf" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+
+                    <!-- Track 4 -->
+                    <div class="track-card p-4 rounded-lg">
+                        <h3 class="text-xl font-bold mb-2 text-pink-600">Track 4: Good 4 U</h3>
+                        <iframe class="spotify-iframe" src="https://open.spotify.com/embed/track/6fGSHpEipD1YjtLLChnBzW" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+
+                    <!-- Track 5 -->
+                    <div class="track-card p-4 rounded-lg">
+                        <h3 class="text-xl font-bold mb-2 text-pink-600">Track 5: Drivers License</h3>
+                        <iframe class="spotify-iframe" src="https://open.spotify.com/embed/track/5zFglKYiknIxks8geR8rcL" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+
+                    <!-- Track 6 -->
+                    <div class="track-card p-4 rounded-lg">
+                        <h3 class="text-xl font-bold mb-2 text-pink-600">Track 6: Save Your Tears</h3>
+                        <iframe class="spotify-iframe" src="https://open.spotify.com/embed/track/7GoKDM0DsvZvV95FM4jkux" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer Section -->
+        <footer class="text-center mt-10 text-gray-500 text-sm">
+            <p>&copy; 2025 Spotify Player for Bestie. All rights reserved.</p>
+            <p>Made with ❤️ and good vibes.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Staggered animation for track cards and section titles
+        document.addEventListener('DOMContentLoaded', () => {
+            const trackCards = document.querySelectorAll('.track-card');
+            trackCards.forEach((card, index) => {
+                card.style.animationDelay = `${0.1 + index * 0.08}s`;
+            });
+
+            const sectionTitles = document.querySelectorAll('h2');
+            sectionTitles.forEach((title, index) => {
+                title.style.animationDelay = `${0.3 + index * 0.1}s`;
+            });
+        });
+    </script>
+</body>
+</html>
