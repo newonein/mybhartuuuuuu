@@ -41,7 +41,7 @@
             animation-delay: 0.2s; /* Delay for container */
             opacity: 0; /* Start hidden for animation */
         }
-        .track-card {
+        .player-card {
             background-color: #ffffff;
             border-left: 4px solid #E91E63; /* Deep Pink left border for emphasis */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -50,7 +50,7 @@
             opacity: 0; /* Start hidden for animation */
             /* Animation delay set by JS for staggered effect */
         }
-        .track-card:hover {
+        .player-card:hover {
             transform: translateY(-5px) scale(1.01); /* Lift and slight grow effect */
             box-shadow: 0 8px 16px rgba(233, 30, 99, 0.2); /* Pinker, larger shadow on hover */
         }
@@ -80,6 +80,36 @@
         .spotify-iframe:hover {
             transform: scale(1.01); /* Slight zoom on hover */
         }
+        .control-button {
+            background-color: #E91E63; /* Deep Pink background */
+            color: white;
+            padding: 0.6rem 1.2rem; /* Slightly larger padding */
+            border-radius: 0.5rem; /* More rounded corners */
+            font-weight: 700; /* Bolder text */
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transitions */
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Initial subtle shadow */
+        }
+        .control-button:hover {
+            background-color: #C2185B; /* Darker Deep Pink on hover */
+            transform: translateY(-3px) scale(1.03); /* Lift and slight grow effect */
+            box-shadow: 0 6px 12px rgba(233, 30, 99, 0.4); /* More prominent pink shadow on hover */
+        }
+        .control-button:active {
+            transform: translateY(0); /* Press effect */
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2); /* Inset shadow for pressed look */
+        }
+        .control-button:disabled {
+            background-color: #FFCDD2; /* Lighter pink when disabled */
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
     </style>
 </head>
 <body class="p-4 sm:p-6 md:p-8">
@@ -98,44 +128,16 @@
         <main>
             <section class="mb-10">
                 <h2 class="text-2xl sm:text-3xl font-semibold text-gray-800 mb-4">Your Curated Playlist</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="player-card p-6 rounded-lg flex flex-col items-center">
+                    <h3 id="current-track-title" class="text-xl font-bold mb-4 text-pink-600 text-center">Loading Track...</h3>
+                    <iframe id="spotify-player-iframe" class="spotify-iframe mb-6" src="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
-                    <!-- Track 1 -->
-                    <div class="track-card p-4 rounded-lg">
-                        <h3 class="text-xl font-bold mb-2 text-pink-600">Track 1: Blinding Lights</h3>
-                        <iframe class="spotify-iframe" src="https://open.spotify.com/embed/track/4umIPjkehX1r7uhmGvXiSV" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <button id="prev-button" class="control-button" onclick="prevTrack()">Previous</button>
+                        <button id="toggle-autoplay-button" class="control-button" onclick="toggleAutoplay()">Enable Autoplay</button>
+                        <button id="next-button" class="control-button" onclick="nextTrack()">Next</button>
                     </div>
-
-                    <!-- Track 2 -->
-                    <div class="track-card p-4 rounded-lg">
-                        <h3 class="text-xl font-bold mb-2 text-pink-600">Track 2: Levitating</h3>
-                        <iframe class="spotify-iframe" src="https://open.spotify.com/embed/track/14mT8BCOXiUUcGlb7KujkT" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    </div>
-
-                    <!-- Track 3 -->
-                    <div class="track-card p-4 rounded-lg">
-                        <h3 class="text-xl font-bold mb-2 text-pink-600">Track 3: Watermelon Sugar</h3>
-                        <iframe class="spotify-iframe" src="https://open.spotify.com/embed/track/0SccFtYdj75y6lL2OW10Cf" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    </div>
-
-                    <!-- Track 4 -->
-                    <div class="track-card p-4 rounded-lg">
-                        <h3 class="text-xl font-bold mb-2 text-pink-600">Track 4: Good 4 U</h3>
-                        <iframe class="spotify-iframe" src="https://open.spotify.com/embed/track/6fGSHpEipD1YjtLLChnBzW" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    </div>
-
-                    <!-- Track 5 -->
-                    <div class="track-card p-4 rounded-lg">
-                        <h3 class="text-xl font-bold mb-2 text-pink-600">Track 5: Drivers License</h3>
-                        <iframe class="spotify-iframe" src="https://open.spotify.com/embed/track/5zFglKYiknIxks8geR8rcL" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    </div>
-
-                    <!-- Track 6 -->
-                    <div class="track-card p-4 rounded-lg">
-                        <h3 class="text-xl font-bold mb-2 text-pink-600">Track 6: Save Your Tears</h3>
-                        <iframe class="spotify-iframe" src="https://open.spotify.com/embed/track/7GoKDM0DsvZvV95FM4jkux" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-                    </div>
-
+                    <p id="autoplay-status" class="mt-4 text-sm text-gray-600">Autoplay is currently OFF.</p>
                 </div>
             </section>
         </main>
@@ -148,17 +150,118 @@
     </div>
 
     <script>
-        // Staggered animation for track cards and section titles
+        // Array of Spotify track IDs
+        const spotifyTracks = [
+            { id: '4umIPjkehX1r7uhmGvXiSV', title: 'Blinding Lights - The Weeknd' },
+            { id: '14mT8BCOXiUUcGlb7KujkT', title: 'Levitating - Dua Lipa' },
+            { id: '0SccFtYdj75y6lL2OW10Cf', title: 'Watermelon Sugar - Harry Styles' },
+            { id: '6fGSHpEipD1YjtLLChnBzW', title: 'Good 4 U - Olivia Rodrigo' },
+            { id: '5zFglKYiknIxks8geR8rcL', title: 'Drivers License - Olivia Rodrigo' },
+            { id: '7GoKDM0DsvZvV95FM4jkux', title: 'Save Your Tears - The Weeknd' }
+        ];
+
+        let currentTrackIndex = 0;
+        let autoplayIntervalId = null;
+        // Average song duration in milliseconds (e.g., 3 minutes 30 seconds)
+        const SONG_DURATION_MS = 3 * 60 * 1000 + 30 * 1000; 
+
+        /**
+         * Loads a track into the Spotify iframe.
+         * @param {number} index The index of the track in the spotifyTracks array.
+         */
+        function loadTrack(index) {
+            const iframe = document.getElementById('spotify-player-iframe');
+            const trackTitleElement = document.getElementById('current-track-title');
+
+            if (index >= 0 && index < spotifyTracks.length) {
+                const track = spotifyTracks[index];
+                // Spotify embed URL structure
+                iframe.src = `https://open.spotify.com/embed/track/${track.id}?utm_source=generator&autoplay=true`;
+                trackTitleElement.textContent = `Now Playing: ${track.title}`;
+                currentTrackIndex = index;
+            } else {
+                // Handle case where index is out of bounds (e.g., end of playlist)
+                console.warn('Track index out of bounds:', index);
+                trackTitleElement.textContent = 'No more tracks in playlist.';
+                iframe.src = ''; // Clear iframe
+                // Optionally loop back to start if at end
+                if (index >= spotifyTracks.length) {
+                    currentTrackIndex = 0;
+                    loadTrack(currentTrackIndex);
+                }
+            }
+            // Restart autoplay timer if autoplay is enabled
+            if (autoplayIntervalId) {
+                clearInterval(autoplayIntervalId);
+                autoplayIntervalId = setInterval(nextTrack, SONG_DURATION_MS);
+            }
+        }
+
+        /**
+         * Plays the next track in the playlist.
+         */
+        function nextTrack() {
+            let nextIndex = currentTrackIndex + 1;
+            if (nextIndex >= spotifyTracks.length) {
+                nextIndex = 0; // Loop back to the beginning
+            }
+            loadTrack(nextIndex);
+        }
+
+        /**
+         * Plays the previous track in the playlist.
+         */
+        function prevTrack() {
+            let prevIndex = currentTrackIndex - 1;
+            if (prevIndex < 0) {
+                prevIndex = spotifyTracks.length - 1; // Loop to the end
+            }
+            loadTrack(prevIndex);
+        }
+
+        /**
+         * Toggles the autoplay functionality.
+         */
+        function toggleAutoplay() {
+            const toggleButton = document.getElementById('toggle-autoplay-button');
+            const statusText = document.getElementById('autoplay-status');
+
+            if (autoplayIntervalId) {
+                // Autoplay is currently ON, turn it OFF
+                clearInterval(autoplayIntervalId);
+                autoplayIntervalId = null;
+                toggleButton.textContent = 'Enable Autoplay';
+                statusText.textContent = 'Autoplay is currently OFF.';
+            } else {
+                // Autoplay is currently OFF, turn it ON
+                autoplayIntervalId = setInterval(nextTrack, SONG_DURATION_MS);
+                toggleButton.textContent = 'Disable Autoplay';
+                statusText.textContent = 'Autoplay is currently ON (next song in ~3:30).';
+                // Load the current track immediately to start autoplay
+                loadTrack(currentTrackIndex);
+            }
+        }
+
+        // Initial load when the page is ready
         document.addEventListener('DOMContentLoaded', () => {
-            const trackCards = document.querySelectorAll('.track-card');
-            trackCards.forEach((card, index) => {
-                card.style.animationDelay = `${0.1 + index * 0.08}s`;
-            });
+            // Load the first track without autoplay initially
+            loadTrack(currentTrackIndex);
+
+            // Staggered animation for the main container and section titles
+            const container = document.querySelector('.container');
+            container.style.animationDelay = '0.2s';
+            container.style.opacity = '1'; // Make visible after animation
 
             const sectionTitles = document.querySelectorAll('h2');
             sectionTitles.forEach((title, index) => {
                 title.style.animationDelay = `${0.3 + index * 0.1}s`;
+                title.style.opacity = '1'; // Make visible after animation
             });
+
+            // The player card itself will animate in via its own CSS animation
+            const playerCard = document.querySelector('.player-card');
+            playerCard.style.animationDelay = '0.5s'; // Delay after container
+            playerCard.style.opacity = '1'; // Make visible after animation
         });
     </script>
 </body>
